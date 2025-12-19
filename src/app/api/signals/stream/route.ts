@@ -2,10 +2,14 @@ import { NextRequest } from 'next/server'
 import { readJson } from '@/lib/store'
 import { initDb, listSignals as dbListSignals } from '@/lib/db'
 import { scanAndMaybeGenerate } from '@/lib/auto'
+import { startAutoWorker } from '@/lib/worker'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest) {
+  // Ensure worker is running
+  startAutoWorker().catch(console.error)
+
   const url = new URL(req.url)
   const lastId = url.searchParams.get('lastId')
   const encoder = new TextEncoder()
