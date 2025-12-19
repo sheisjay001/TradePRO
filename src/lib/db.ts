@@ -27,12 +27,18 @@ let pool: mysql.Pool | null = null
 export function getPool(): mysql.Pool | null {
   if (!hasDbEnv()) return null
   if (!pool) {
+    // Sanitize DB_HOST if user accidentally included port
+    const host = process.env.DB_HOST?.split(':')[0]
+
     pool = mysql.createPool({
-      host: process.env.DB_HOST,
+      host: host,
       user: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       port: Number(process.env.DB_PORT || 3306),
+      ssl: {
+        rejectUnauthorized: false
+      },
       connectionLimit: 5,
       waitForConnections: true,
     })
