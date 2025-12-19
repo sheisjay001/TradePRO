@@ -7,16 +7,16 @@ export default function SignInModalTrigger() {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <p className="text-sm mt-4">
-        Already a member?{' '}
+      <div className="flex items-center justify-center gap-2 mt-4 text-sm text-slate-500">
+        <span>Already a member?</span>
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="underline text-blue-600"
+          className="font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
         >
           Sign in
         </button>
-      </p>
+      </div>
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/50" onClick={() => setOpen(false)} />
@@ -32,10 +32,10 @@ export default function SignInModalTrigger() {
               </button>
             </div>
             <LoginForm />
-            <p className="text-xs mt-3 text-gray-600">
+            <p className="text-xs mt-4 text-center text-slate-500">
               By continuing you agree to our{' '}
-              <Link href="#" className="underline">Terms</Link> and{' '}
-              <Link href="#" className="underline">Privacy Policy</Link>.
+              <Link href="#" className="text-indigo-600 hover:text-indigo-800 hover:underline">Terms</Link> and{' '}
+              <Link href="#" className="text-indigo-600 hover:text-indigo-800 hover:underline">Privacy Policy</Link>.
             </p>
           </div>
         </div>

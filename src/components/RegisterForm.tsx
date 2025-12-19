@@ -25,11 +25,38 @@ export default function RegisterForm() {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-3">
-      <input className="w-full border rounded px-3 py-2" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      <input className="w-full border rounded px-3 py-2" type="password" placeholder="Password (min 8 chars)" value={password} onChange={(e) => setPassword(e.target.value)} minLength={8} required />
-      <button className="bg-blue-600 text-white rounded px-4 py-2">Create account</button>
-      {msg && <p className="text-sm mt-2">{msg}</p>}
+    <form onSubmit={submit} className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-1">Email address</label>
+        <input 
+          className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all" 
+          type="email" 
+          placeholder="you@example.com" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+          required 
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-slate-700 mb-1">Password</label>
+        <input 
+          className="w-full border border-slate-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none transition-all" 
+          type="password" 
+          placeholder="Min 8 characters" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+          minLength={8} 
+          required 
+        />
+      </div>
+      <button className="w-full bg-gradient-to-r from-slate-900 to-indigo-900 hover:from-slate-800 hover:to-indigo-800 text-white font-medium rounded-lg px-4 py-3 shadow-lg shadow-indigo-900/20 transition-all transform hover:scale-[1.02]">
+        Create account
+      </button>
+      {msg && (
+        <div className={`p-3 rounded-lg text-sm ${msg.includes('success') ? 'bg-green-50 text-green-700 border border-green-100' : 'bg-red-50 text-red-700 border border-red-100'}`}>
+          {msg}
+        </div>
+      )}
     </form>
   )
 }
