@@ -1,0 +1,14 @@
+[
+  {
+    "id": "admin-seed-id",
+    "email": "admin@tradesignal.pro",
+    "passwordHash": "$2a$10$xEHmSgAVqF3SKpeaPSJpa.nkLIjnFHdExpdTjVri/1CvAsILFTY/O",
+    "role": "admin"
+  },
+  {
+    "id": "1765910324301",
+    "email": "soteriamaa@gmail.com",
+    "passwordHash": "$2a$10$EHRbkLnzpvMQzy3/4G1zVe3VhGsMxUIfu6T2aZyrhAEMrGQ.hJIvi",
+    "role": "user"
+  }
+]
