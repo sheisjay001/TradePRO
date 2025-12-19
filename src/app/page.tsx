@@ -77,8 +77,8 @@ export default function HomePage() {
         
         <p className="text-xs mt-6 text-slate-500 text-center">
           By creating an account you agree to our{' '}
-          <Link href="#" className="text-indigo-600 hover:text-indigo-800 underline">Terms</Link> and{' '}
-          <Link href="#" className="text-indigo-600 hover:text-indigo-800 underline">Privacy Policy</Link>.
+          <Link href="/terms" className="text-indigo-600 hover:text-indigo-800 underline">Terms</Link> and{' '}
+          <Link href="/privacy-policy" className="text-indigo-600 hover:text-indigo-800 underline">Privacy Policy</Link>.
         </p>
         <div className="mt-6 pt-6 border-t border-slate-100">
             <SignInModalTrigger />

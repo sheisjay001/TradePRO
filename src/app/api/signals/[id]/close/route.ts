@@ -8,7 +8,8 @@ const closeSchema = z.object({
   result: z.enum(['WIN', 'LOSS', 'BREAK_EVEN', 'EXPIRED']),
 })
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const body = await req.json()
   const parsed = closeSchema.safeParse(body)
   if (!parsed.success) {
@@ -16,10 +17,10 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   }
   
   await initDb()
-  await closeSignal(params.id, parsed.data.result)
+  await closeSignal(id, parsed.data.result)
   try {
     const signals = await readJson<any[]>('signals.json', [])
-    const s = signals.find((x) => x.id === params.id)
+    const s = signals.find((x) => x.id === id)
     if (s) {
       s.status = 'CLOSED'
       s.result = parsed.data.result
@@ -27,7 +28,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
       await writeJson('signals.json', signals)
     }
   } catch {}
-  await addAudit('signal_close', { id: params.id, result: parsed.data.result })
+  await addAudit('signal_close', { id: id, result: parsed.data.result })
   
   return NextResponse.json({ ok: true })
 }

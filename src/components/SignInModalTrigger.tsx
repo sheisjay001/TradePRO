@@ -34,8 +34,8 @@ export default function SignInModalTrigger() {
             <LoginForm />
             <p className="text-xs mt-4 text-center text-slate-500">
               By continuing you agree to our{' '}
-              <Link href="#" className="text-indigo-600 hover:text-indigo-800 hover:underline">Terms</Link> and{' '}
-              <Link href="#" className="text-indigo-600 hover:text-indigo-800 hover:underline">Privacy Policy</Link>.
+              <Link href="/terms" className="text-indigo-600 hover:text-indigo-800 hover:underline">Terms</Link> and{' '}
+              <Link href="/privacy-policy" className="text-indigo-600 hover:text-indigo-800 hover:underline">Privacy Policy</Link>.
             </p>
           </div>
         </div>
