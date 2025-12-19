@@ -7,7 +7,7 @@ export default function TermsPage() {
         <section className="mb-8">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">1. Acceptance of Terms</h2>
           <p className="text-slate-600 mb-4">
-            By accessing and using TradeSignal Pro ("the Service"), you agree to comply with and be bound by these Terms of Service. If you do not agree to these terms, please do not use the Service.
+            By accessing and using TradeSignal Pro (&quot;the Service&quot;), you agree to comply with and be bound by these Terms of Service. If you do not agree to these terms, please do not use the Service.
           </p>
         </section>
 
