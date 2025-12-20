@@ -7,7 +7,7 @@ export default function TermsPage() {
         <section className="mb-8">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">1. Acceptance of Terms</h2>
           <p className="text-slate-600 mb-4">
-            By accessing and using TradeSignal Pro (&quot;the Service&quot;), you agree to comply with and be bound by these Terms of Service. If you do not agree to these terms, please do not use the Service.
+            By accessing and using TradePRO (&quot;the Service&quot;), you agree to comply with and be bound by these Terms of Service. If you do not agree to these terms, please do not use the Service.
           </p>
         </section>
 
@@ -17,7 +17,7 @@ export default function TermsPage() {
             Trading financial markets (Forex, Crypto, Indices) involves a high level of risk and may not be suitable for all investors. You could lose some or all of your initial investment.
           </p>
           <p className="text-slate-600 mb-4 font-medium">
-            The signals provided by TradeSignal Pro are for educational and informational purposes only and should not be considered as financial advice. We are not responsible for any losses incurred while using our signals.
+            The signals provided by TradePRO are for educational and informational purposes only and should not be considered as financial advice. We are not responsible for any losses incurred while using our signals.
           </p>
         </section>
 

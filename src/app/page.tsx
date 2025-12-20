@@ -14,7 +14,7 @@ export default function HomePage() {
             Actionable <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-500">Trading Signals</span>
           </h1>
           <p className="mt-4 text-slate-300 text-lg leading-relaxed">
-            TradeSignal Pro delivers curated <span className="text-amber-400 font-semibold">BUY/SELL</span> ideas with precision entries.
+            TradePRO delivers curated <span className="text-amber-400 font-semibold">BUY/SELL</span> ideas with precision entries.
             Built-in risk checks keep you disciplined. Live updates stream opportunities in real time.
           </p>
 

@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken'
 import { getAppSecret } from '@/lib/config'
 
 export const metadata: Metadata = {
-  title: 'TradeSignal Pro',
+  title: 'TradePRO',
   description: 'Actionable trading signals with risk management',
 }
 
@@ -26,7 +26,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="min-h-screen bg-gray-50 text-gray-900">
         <header className="border-b bg-white">
           <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-            <Link href="/" className="font-semibold">TradeSignal Pro</Link>
+            <Link href="/" className="font-semibold">TradePRO</Link>
             <nav className="flex gap-4 items-center">
               {role && <Link href="/dashboard" className="text-sm hover:underline">Dashboard</Link>}
               {role === 'admin' && <Link href="/admin" className="text-sm hover:underline">Admin</Link>}
