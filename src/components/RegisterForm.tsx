@@ -6,34 +6,31 @@ export default function RegisterForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [msg, setMsg] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   async function submit(e: React.FormEvent) {
     e.preventDefault()
     setMsg(null)
-    const res = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    })
-    if (res.ok) {
-      // Auto login
-      const loginRes = await fetch('/api/auth/login', {
+    setLoading(true)
+
+    try {
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
-      if (loginRes.ok) {
-        router.refresh()
-        router.push('/dashboard')
+      if (res.ok) {
+        // Redirect to login page
+        router.push('/login')
       } else {
-        setMsg('Registered successfully. Please sign in.')
-        setEmail('')
-        setPassword('')
+        const data = await res.json().catch(() => ({}))
+        setMsg(data?.error ?? 'Registration failed')
+        setLoading(false)
       }
-    } else {
-      const data = await res.json().catch(() => ({}))
-      setMsg(data?.error ?? 'Registration failed')
+    } catch (err) {
+      setMsg('An error occurred. Please try again.')
+      setLoading(false)
     }
   }
 
@@ -62,8 +59,12 @@ export default function RegisterForm() {
           required 
         />
       </div>
-      <button className="w-full bg-gradient-to-r from-slate-900 to-indigo-900 hover:from-slate-800 hover:to-indigo-800 text-white font-medium rounded-lg px-4 py-3 shadow-lg shadow-indigo-900/20 transition-all transform hover:scale-[1.02]">
-        Create account
+      <button 
+        type="submit"
+        disabled={loading}
+        className="w-full bg-gradient-to-r from-slate-900 to-indigo-900 hover:from-slate-800 hover:to-indigo-800 text-white font-medium rounded-lg px-4 py-3 shadow-lg shadow-indigo-900/20 transition-all transform hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+      >
+        {loading ? 'Creating account...' : 'Create account'}
       </button>
       {msg && (
         <div className={`p-3 rounded-lg text-sm ${msg.includes('success') ? 'bg-green-50 text-green-700 border border-green-100' : 'bg-red-50 text-red-700 border border-red-100'}`}>
