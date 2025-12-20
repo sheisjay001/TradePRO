@@ -66,6 +66,13 @@ export default function LoginForm() {
       >
         {loading ? 'Signing in...' : 'Sign in'}
       </button>
+
+      <div className="text-center">
+        <a href="/reset-password" className="text-sm text-indigo-600 hover:text-indigo-800 transition-colors">
+          Forgot password?
+        </a>
+      </div>
+
       {msg && (
         <div className="p-3 bg-red-50 text-red-700 border border-red-100 rounded-lg text-sm">
           {msg}
