@@ -46,7 +46,11 @@ export function getPool(): mysql.Pool | null {
   return pool
 }
 
+let isInitialized = false
+
 export async function initDb(): Promise<boolean> {
+  if (isInitialized) return true
+
   const adminEmail = 'admin@tradesignal.pro'
   const adminPass = 'admin123'
 
@@ -145,6 +149,7 @@ export async function initDb(): Promise<boolean> {
     }
   } catch {}
 
+  isInitialized = true
   return true
 }
 

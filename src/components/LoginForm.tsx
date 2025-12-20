@@ -21,8 +21,8 @@ export default function LoginForm() {
         body: JSON.stringify({ email, password }),
       })
       if (res.ok) {
-        router.refresh()
-        router.push('/dashboard')
+        // Use window.location.href for faster redirect to avoid React hydration delay
+        window.location.href = '/dashboard'
       } else {
         const data = await res.json().catch(() => ({}))
         setMsg(data?.error ?? 'Login failed')
