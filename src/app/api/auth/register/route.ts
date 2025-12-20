@@ -31,12 +31,14 @@ export async function POST(req: NextRequest) {
   const hash = await bcrypt.hash(parsed.data.password, 10)
   const newUser: User = { id: Date.now().toString(), email: parsed.data.email, passwordHash: hash, role: 'user' }
   try {
+    // Fire and forget audit log to speed up response
+    addAudit('register', { email: newUser.email }, newUser.id).catch(console.error)
+    
     await createUser(newUser)
   } catch {
     const users = await readJson<User[]>('users.json', [] as User[])
     users.push(newUser)
     await writeJson('users.json', users)
   }
-  await addAudit('register', { email: newUser.email }, newUser.id)
   return NextResponse.json({ ok: true })
 }

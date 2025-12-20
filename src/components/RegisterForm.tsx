@@ -21,8 +21,8 @@ export default function RegisterForm() {
         body: JSON.stringify({ email, password }),
       })
       if (res.ok) {
-        // Redirect to login page
-        router.push('/login')
+        // Use window.location.href for faster redirect to avoid React hydration delay
+        window.location.href = '/login'
       } else {
         const data = await res.json().catch(() => ({}))
         setMsg(data?.error ?? 'Registration failed')
