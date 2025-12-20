@@ -46,7 +46,7 @@ export default function PrivacyPolicyPage() {
         <section className="mb-8">
           <h2 className="text-xl font-semibold text-slate-800 mb-4">5. Contact Us</h2>
           <p className="text-slate-600 mb-4">
-            If you have any questions about this Privacy Policy, please contact us at support@tradesignal.pro.
+            If you have any questions about this Privacy Policy, please contact us at support@tradepro.com.
           </p>
         </section>
       </div>
