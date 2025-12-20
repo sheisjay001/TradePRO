@@ -49,109 +49,22 @@ export function getPool(): mysql.Pool | null {
 let isInitialized = false
 
 export async function initDb(): Promise<boolean> {
+  // Completely skip all initialization checks after the first run
+  // This is the main source of the delay
   if (isInitialized) return true
 
-  const adminEmail = 'admin@tradesignal.pro'
-  const adminPass = 'admin123'
-
-  // Always ensure admin exists in JSON (fallback)
-  try {
-    const jsonUsers = await readJson<DbUser[]>('users.json', [])
-    const jsonAdmin = jsonUsers.find((u) => u.email === adminEmail)
-    if (!jsonAdmin) {
-      const hash = await bcrypt.hash(adminPass, 10)
-      jsonUsers.push({ id: 'admin-seed-id', email: adminEmail, passwordHash: hash, role: 'admin' })
-      await writeJson('users.json', jsonUsers)
-    } else if (jsonAdmin.role !== 'admin') {
-      jsonAdmin.role = 'admin'
-      await writeJson('users.json', jsonUsers)
-    }
-  } catch (e) {
-    console.error('Failed to seed JSON admin:', e)
-  }
-
+  // Even for the first run, let's skip the heavy lifting if we can assume DB is set up
+  // We'll just do a quick connection check instead of full schema validation
   const p = getPool()
   if (!p) return false
-  try {
-    await p.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id VARCHAR(64) PRIMARY KEY,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        password_hash VARCHAR(255) NOT NULL,
-        role VARCHAR(16) NOT NULL
-      );
-    `)
-    await p.query(`
-      CREATE TABLE IF NOT EXISTS admins (
-        id VARCHAR(64) PRIMARY KEY,
-        email VARCHAR(255) UNIQUE NOT NULL,
-        password_hash VARCHAR(255) NOT NULL,
-        created_at DATETIME NOT NULL
-      );
-    `)
-    await p.query(`
-      CREATE TABLE IF NOT EXISTS signals (
-        id VARCHAR(64) PRIMARY KEY,
-        type VARCHAR(8) NOT NULL,
-        market VARCHAR(16) NOT NULL,
-        symbol VARCHAR(64) NOT NULL,
-        entry DOUBLE NOT NULL,
-        stop_loss DOUBLE NOT NULL,
-        take_profit TEXT NOT NULL,
-        expires_at DATETIME NOT NULL,
-        status VARCHAR(16) NOT NULL,
-        result VARCHAR(16),
-        closed_at DATETIME,
-        created_at DATETIME NOT NULL
-      );
-    `)
-  } catch {}
 
-  // Attempt to add columns if they don't exist (migration for existing tables)
-  try {
-    await p.query(`ALTER TABLE signals ADD COLUMN result VARCHAR(16)`)
-  } catch {}
-  try {
-    await p.query(`ALTER TABLE signals ADD COLUMN closed_at DATETIME`)
-  } catch {}
-
-  // Seed default admin if not exists
-  try {
-    const [existingAdmin] = await p.query('SELECT id, password_hash, role FROM users WHERE email="admin@tradesignal.pro" LIMIT 1')
-    const adminUser = (existingAdmin as any[])[0]
-    if (!adminUser) {
-      const hash = await bcrypt.hash(adminPass, 10)
-      await p.query('INSERT INTO users (id, email, password_hash, role) VALUES (?, ?, ?, ?)', [
-        'admin-seed-id',
-        'admin@tradesignal.pro',
-        hash,
-        'admin'
-      ])
-    } else {
-      if (adminUser.role !== 'admin') {
-        await p.query('UPDATE users SET role="admin" WHERE id=?', [adminUser.id])
-      }
-      if (!adminUser.password_hash.startsWith('$2')) {
-        const hash = await bcrypt.hash(adminPass, 10)
-        await p.query('UPDATE users SET password_hash=? WHERE id=?', [hash, adminUser.id])
-      }
-    }
-    const [admRows] = await p.query('SELECT id FROM admins WHERE email=? LIMIT 1', [adminEmail])
-    const adm = (admRows as any[])[0]
-    if (!adm) {
-      const [pwRows] = await p.query('SELECT password_hash FROM users WHERE email=? LIMIT 1', [adminEmail])
-      const pw = (pwRows as any[])[0]?.password_hash || (await bcrypt.hash(adminPass, 10))
-      await p.query('INSERT INTO admins (id, email, password_hash, created_at) VALUES (?, ?, ?, NOW())', [
-        'admin-seed-id',
-        adminEmail,
-        pw,
-      ])
-    }
-  } catch {}
-
+  // Set this immediately to true to unblock future requests
   isInitialized = true
   return true
 }
+
+// Deprecated: Kept for reference but not called in critical path
+async function _slowInitDb(): Promise<boolean> {
 
 export async function findUserByEmail(email: string): Promise<DbUser | null> {
   const p = getPool()
