@@ -47,7 +47,8 @@ export async function GET(req: NextRequest) {
         }
       }
       await pushSignals()
-      const poll = setInterval(pushSignals, 3000)
+      // Polling frequency: increased to 5s to reduce DB load
+      const poll = setInterval(pushSignals, 5000)
       const abort = new AbortController()
       abort.signal.addEventListener('abort', () => {
         clearInterval(ping)

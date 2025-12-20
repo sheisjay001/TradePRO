@@ -39,8 +39,12 @@ export function getPool(): mysql.Pool | null {
       ssl: {
         rejectUnauthorized: false
       },
-      connectionLimit: 5,
+      // Increase connection limit slightly and add keepAlive
+      connectionLimit: 10,
       waitForConnections: true,
+      queueLimit: 0,
+      enableKeepAlive: true,
+      keepAliveInitialDelay: 0
     })
   }
   return pool
@@ -65,6 +69,8 @@ export async function initDb(): Promise<boolean> {
 
 // Deprecated: Kept for reference but not called in critical path
 async function _slowInitDb(): Promise<boolean> {
+  return true
+}
 
 export async function findUserByEmail(email: string): Promise<DbUser | null> {
   const p = getPool()
