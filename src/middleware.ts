@@ -10,6 +10,15 @@ export function middleware(req: NextRequest) {
     url.protocol = 'https:'
     return NextResponse.redirect(url.toString(), 301)
   }
+
+  if (url.pathname.startsWith('/dashboard')) {
+    const token = req.cookies.get('tspro_token')?.value
+    if (!token) {
+      url.pathname = '/'
+      return NextResponse.redirect(url)
+    }
+  }
+
   if (url.pathname.startsWith('/api/')) {
     const ip = req.headers.get('x-forwarded-for') || 'local'
     const key = `${ip}:${url.pathname}`
@@ -29,5 +38,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/:path*'],
+  matcher: ['/api/:path*', '/dashboard/:path*'],
 }

@@ -17,6 +17,7 @@ export default function LoginForm() {
       body: JSON.stringify({ email, password }),
     })
     if (res.ok) {
+      router.refresh()
       router.push('/dashboard')
     } else {
       const data = await res.json().catch(() => ({}))
