@@ -90,6 +90,12 @@ export async function createUser(u: DbUser): Promise<void> {
   await p.query('INSERT INTO users (id, email, password_hash, role) VALUES (?, ?, ?, ?)', [u.id, u.email, u.passwordHash, u.role])
 }
 
+export async function updateUserPassword(email: string, passwordHash: string): Promise<void> {
+  const p = getPool()
+  if (!p) throw new Error('No database connection')
+  await p.query('UPDATE users SET password_hash=? WHERE email=?', [passwordHash, email])
+}
+
 export async function listSignals(): Promise<DbSignal[]> {
   const p = getPool()
   if (!p) return []
